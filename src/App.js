@@ -1,25 +1,18 @@
-import logo from './logo.svg';
+//On importe le fichier css
 import './App.css';
+import Header from './Header';
 
-function App() {
+function App() { //definition de notre composant
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header/>
+      <main className='contenu'>
+        <p>Bienvenue ! Cette application vous aide à trouver 
+          votre ligne de bus à Dakar.</p>
+      </main>
     </div>
   );
 }
 
+//rend le composant disponible pour les autres fichiers
 export default App;
