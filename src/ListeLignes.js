@@ -1,15 +1,14 @@
 //on importe le fichier css et celui contenant le composant LigneBus
 import LigneBus from './LigneBus';
 import './ListeLignes.css';
+import StatReseau from './StatReseau';
 
 //le composant recoit une prop lignes qui est un tableau d'objet
 function ListeLignes({ lignes }) {
 return (
     <div className="liste-lignes">
         <h2 className="liste-titre">Lignes Dakar Dem Dikk</h2>
-        <p className="liste-description">
-            {lignes.length} lignes disponibles
-        </p>
+        <StatReseau lignes={lignes}/>
         {lignes.map(ligne => (
             <LigneBus
                 key={ligne.id}
@@ -17,6 +16,7 @@ return (
                 depart={ligne.depart}
                 arrivee={ligne.arrivee}
                 arrets={ligne.arrets}
+                couleur={ligne.couleur}
             />
         ))}
     </div>

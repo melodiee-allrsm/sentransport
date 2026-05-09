@@ -1,0 +1,31 @@
+//importer le style
+import './DetailLigne.css';
+
+function DetailLigne({ ligne }) { //definition du composant
+    return (
+        <div className="detail-ligne">
+            <h3 className="detail-titre">
+                Ligne {ligne.numero} : {ligne.depart} &rarr;
+                {ligne.arrivee}
+            </h3>
+            <p className="detail-info">
+                {ligne.arrets} arrets sur ce trajet
+            </p>
+            <div className="detail-arrets">
+                <h4>Arrets principaux :</h4>
+                <ul className="detail-liste">
+                    {ligne.listeArrets.map((arret, index) => (
+                        <li key={index} className="detail-arret">
+                            <span className="arret-numero">{index + 1}</span>
+                            <span className="arret-nom">{arret}</span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        </div>
+    );
+}
+
+//rentre le fichier importable par les autres fichiers
+export default DetailLigne;
+

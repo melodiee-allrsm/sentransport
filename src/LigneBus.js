@@ -1,20 +1,26 @@
-//on importe le fichier css
+//importer le fichier css
 import './LigneBus.css';
 
-//on destructure les props le parent passera ces 4 valeurs
-function LigneBus({ numero, depart, arrivee, arrets }) {
+function LigneBus({ numero, depart, arrivee, arrets,
+                    estSelectionnee, onClick }) {
+
 return (
-    <div className="ligne-bus">
+    <div
+    className={`ligne-bus ${estSelectionnee
+    ? 'ligne-bus-active' : ''}`}
+    onClick={onClick}
+    >
         <div className="ligne-numero">{numero}</div>
         <div className="ligne-info">
             <span className="ligne-trajet">
-                {depart} &rarr; {arrivee} 
+                {depart} &rarr; {arrivee}
             </span>
             <span className="ligne-arrets">{arrets} arrets</span>
         </div>
     </div>
 );
 }
-//on rend le fichier importable par les autres fichiers 
+
+//rendre le composant importable dans les autres fichiers
 export default LigneBus;
 
