@@ -1,0 +1,14 @@
+.effacer-button{
+    border: 1px solid transparent;
+    text-align: center;
+    color: white;
+    background-color: green;
+    border-radius: 6px;
+    width: 120px;
+    font-size: 15px;
+    font-weight: bold;
+    height: 45px;
+
+}
+
+

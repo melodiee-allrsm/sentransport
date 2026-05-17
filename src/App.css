@@ -13,10 +13,11 @@
   box-sizing: border-box;
   flex: 1;
 }
-@media (max-width: 600px) {
-  .contenu {
-    padding: 12px;
-  }
+
+.button-recherche{
+  display: flex;
+  gap: 10px;
+
 }
 
 @media (max-width: 600px) {

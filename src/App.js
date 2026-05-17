@@ -6,45 +6,13 @@ import Recherche from './Recherche';
 import LigneBus from './LigneBus';
 import DetailLigne from './DetailLigne';
 import Footer from './Footer';
+import Effacer from './Effacer';
 
 function App() { //definition du composant
 
-  const lignes = [
-    { id: 1, numero: "1", depart: "Parcelles Assainies",
-    arrivee: "Plateau", arrets: 14,
-    listeArrets: ["Parcelles U14", "Parcelles U10",
-    "Camberene", "Patte d'Oie", "Grand Dakar",
-    "Colobane", "Ponty", "Plateau"] },
-
-    { id: 2, numero: "7", depart: "Guediawaye",
-    arrivee: "Place Obe", arrets: 18,
-    listeArrets: ["Guediawaye", "Pikine", "Thiaroye",
-    "Keur Massar", "Grand Yoff", "Parcelles",
-    "Liberte 6", "Place Obe"] },
-
-    { id: 3, numero: "15", depart: "Pikine",
-    arrivee: "Medina", arrets: 12,
-    listeArrets: ["Pikine Centre", "Thiaroye Gare",
-    "Hann", "Colobane", "Fass", "Medina"] },
-
-    { id: 4, numero: "23", depart: "Ouakam",
-    arrivee: "Grand Dakar", arrets: 10,
-    listeArrets: ["Ouakam Village", "Mermoz", "Fann",
-    "Point E", "Liberte 5", "Grand Dakar"] },
-
-    { id: 5, numero: "8", depart: "Almadies",
-    arrivee: "Colobane", arrets: 16,
-    listeArrets: ["Almadies", "Ngor", "Yoff",
-    "Ouest Foire", "Liberte 6", "Colobane"] },
-
-    { id: 6, numero: "12", depart: "Yoff",
-    arrivee: "Sandaga", arrets: 11,
-    listeArrets: ["Yoff Village", "Aeroport LSS",
-    "Parcelles U17", "Grand Yoff", "HLM", "Sandaga"] },
- ];
-
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
+  const [compteurRecherche, setCompteurRecherche] = useState(0);
 
 
   // Filtrer les lignes selon le texte tape
@@ -64,6 +32,24 @@ function App() { //definition du composant
       setLigneSelectionnee(ligne); // premier clic = selectionner
     }
   }
+
+  //Fonction qui gere le compteur et le target.value
+  function buttonRecherche(e) {
+    setRecherche(e.target.value);
+  }
+
+  //Fonction qui incremente le compteur de recherche apres validation
+  function CompteurValidation(e) {
+    if (e.key === "Enter") {
+      setCompteurRecherche(compteurRecherche + 1);
+    }
+  }
+
+  const ResultatRecherche = (lignesFiltrees.length === 0 ?
+    'Aucune ligne trouvée' : 
+    `${lignesFiltrees.length} ligne${lignesFiltrees.length > 1 ? 's' :''} 
+    trouvée${lignesFiltrees.length > 1 ? 's' : ''}`
+  )
   
   return (
     <div className="App">
@@ -71,14 +57,15 @@ function App() { //definition du composant
 
       <main className="contenu">
 
-        <Recherche valeur={recherche} onChange={setRecherche} />
+      <div className='button-recherche'>
+        <Recherche valeur={recherche} onChange={buttonRecherche} onKeyDown={CompteurValidation}/>
+        <Effacer onClick={() =>setRecherche("")}/>
+      </div>
 
-        <p className="resultat-recherche">
-          {lignesFiltrees.length} ligne
-          {lignesFiltrees.length > 1 ? 's' :''} trouvee
-          {lignesFiltrees.length > 1 ? 's' : ''}
-        </p>
-
+      <p>Vous avez {compteurRecherche} recherche{compteurRecherche > 1 ? 's' : ''}</p>
+      
+        <p className="resultat-recherche">{ResultatRecherche}</p>
+      
         {lignesFiltrees.map(ligne => (
           <LigneBus
             key={ligne.id}
