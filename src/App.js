@@ -1,5 +1,5 @@
 //On importe les differents composants et le useState
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import './App.css';
 import Header from './Header';
 import Recherche from './Recherche';
@@ -10,10 +10,32 @@ import Effacer from './Effacer';
 
 function App() { //definition du composant
 
+  // 1. États pour les données et l'interface
+  const [lignes, setLignes] = useState([]);
+  const [chargement, setChargement] = useState(true);
+  const [erreur, setErreur] = useState(null);
   const [recherche, setRecherche] = useState("");
   const [ligneSelectionnee, setLigneSelectionnee] = useState(null);
   const [compteurRecherche, setCompteurRecherche] = useState(0);
 
+  // 2. Chargement des données au démarrage (Appel API Flask)
+  useEffect(() => {
+    fetch("http://localhost:5000/lignes")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erreur serveur : " + response.status);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setLignes(data);
+        setChargement(false);
+      })
+      .catch((error) => {
+        setErreur(error.message);
+        setChargement(false);
+      });
+  }, []);
 
   // Filtrer les lignes selon le texte tape
   const lignesFiltrees = lignes.filter(l =>
@@ -50,6 +72,26 @@ function App() { //definition du composant
     `${lignesFiltrees.length} ligne${lignesFiltrees.length > 1 ? 's' :''} 
     trouvée${lignesFiltrees.length > 1 ? 's' : ''}`
   )
+  
+  // 1. Écran de chargement
+  if (chargement) {
+    return (
+      <div className="status-message loading">
+        <p>Chargement des lignes...</p>
+      </div>
+    );
+  }
+
+  // 2. Écran d'erreur
+  if (erreur) {
+    return (
+      <div className="status-message error" style={{ color: 'red' }}>
+        <p>Impossible de charger les lignes.</p>
+        <p><strong>Erreur :</strong> {erreur}</p>
+        <p>Vérifiez que le serveur Flask est lancé (<code>python api/app.py</code>).</p>
+      </div>
+    );
+  }
   
   return (
     <div className="App">
